@@ -22,116 +22,137 @@ class TransactionList extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       height: 300,
-      child: ListView.builder(
-        itemBuilder: (context, index) {
-          return Card(
-            child: Row(
-              children: [
+      child: transactions.isEmpty
+          ? Column(
+              children: <Widget>[
+                Text(
+                  'No transactions added yet!',
+                  style: Theme.of(context).textTheme.headline6,
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
                 Container(
-                  padding: const EdgeInsets.all(10),
-                  margin: const EdgeInsets.symmetric(
-                    vertical: 10,
-                    horizontal: 20,
+                  height: 200,
+                  child: Image.asset(
+                    'assets/images/waiting.png',
+                    fit: BoxFit.cover,
                   ),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      color: Colors.black,
-                      width: 2,
-                    ),
-                  ),
-                  child: Text(
-                    '\$${transactions[index].amount.toStringAsFixed(2)}',
-                    style: const TextStyle(
-                      fontSize: 22,
-                      fontWeight: FontWeight.bold,
-                      color: Colors.purple,
-                    ),
-                  ),
-                ),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Text(
-                      transactions[index].title,
-                      style: const TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                    Text(
-                      //DateFormat.HOUR_MINUTE_GENERIC_TZ....
-                      DateFormat('dd/MM/yyyy').format(transactions[index].date),
-                      style: const TextStyle(
-                        color: Colors.grey,
-                        fontSize: 14,
-                        fontStyle: FontStyle.italic,
-                        fontWeight: FontWeight.w400,
-                      ),
-                    ),
-                  ],
-                ),
+                )
               ],
+            )
+          : ListView.builder(
+              itemBuilder: (context, index) {
+                return Card(
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        margin: const EdgeInsets.symmetric(
+                          vertical: 10,
+                          horizontal: 20,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Theme.of(context).primaryColor,
+                            width: 2,
+                          ),
+                        ),
+                        child: Text(
+                          '\$${transactions[index].amount.toStringAsFixed(2)}',
+                          style: TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Theme.of(context).primaryColor,
+                          ),
+                        ),
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: <Widget>[
+                          Text(
+                            transactions[index].title,
+                            style: Theme.of(context).textTheme.headline6,
+                            // style: const TextStyle(
+                            //   fontSize: 18,
+                            //   fontWeight: FontWeight.bold,
+                            // ),
+                          ),
+                          Text(
+                            //DateFormat.HOUR_MINUTE_GENERIC_TZ....
+                            DateFormat('dd/MM/yyyy')
+                                .format(transactions[index].date),
+                            style: const TextStyle(
+                              color: Colors.grey,
+                              fontSize: 14,
+                              fontStyle: FontStyle.italic,
+                              fontWeight: FontWeight.w400,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                );
+              },
+              itemCount: transactions.length,
+              //listview.builder transform
+              // children: transactions
+              //     .map(
+              // (e) =>
+              //listvbuilder
+              // Card(
+              //   child: Row(
+              //     children: [
+              //       Container(
+              //         padding: const EdgeInsets.all(10),
+              //         margin: const EdgeInsets.symmetric(
+              //           vertical: 10,
+              //           horizontal: 20,
+              //         ),
+              //         decoration: BoxDecoration(
+              //           border: Border.all(
+              //             color: Colors.black,
+              //             width: 2,
+              //           ),
+              //         ),
+              //         child: Text(
+              //           '\$${e.amount}',
+              //           style: const TextStyle(
+              //             fontSize: 22,
+              //             fontWeight: FontWeight.bold,
+              //             color: Colors.purple,
+              //           ),
+              //         ),
+              //       ),
+              //       Column(
+              //         crossAxisAlignment: CrossAxisAlignment.start,
+              //         children: <Widget>[
+              //           Text(
+              //             e.title,
+              //             style: const TextStyle(
+              //               fontSize: 18,
+              //               fontWeight: FontWeight.bold,
+              //             ),
+              //           ),
+              //           Text(
+              //             //DateFormat.HOUR_MINUTE_GENERIC_TZ....
+              //             DateFormat('dd/MM/yyyy').format(e.date),
+              //             style: const TextStyle(
+              //               color: Colors.grey,
+              //               fontSize: 14,
+              //               fontStyle: FontStyle.italic,
+              //               fontWeight: FontWeight.w400,
+              //             ),
+              //           ),
+              //         ],
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              // )
+              // .toList(),
             ),
-          );
-        },
-        itemCount: transactions.length,
-        //listview.builder transform
-        // children: transactions
-        //     .map(
-        // (e) =>
-        //listvbuilder
-        // Card(
-        //   child: Row(
-        //     children: [
-        //       Container(
-        //         padding: const EdgeInsets.all(10),
-        //         margin: const EdgeInsets.symmetric(
-        //           vertical: 10,
-        //           horizontal: 20,
-        //         ),
-        //         decoration: BoxDecoration(
-        //           border: Border.all(
-        //             color: Colors.black,
-        //             width: 2,
-        //           ),
-        //         ),
-        //         child: Text(
-        //           '\$${e.amount}',
-        //           style: const TextStyle(
-        //             fontSize: 22,
-        //             fontWeight: FontWeight.bold,
-        //             color: Colors.purple,
-        //           ),
-        //         ),
-        //       ),
-        //       Column(
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: <Widget>[
-        //           Text(
-        //             e.title,
-        //             style: const TextStyle(
-        //               fontSize: 18,
-        //               fontWeight: FontWeight.bold,
-        //             ),
-        //           ),
-        //           Text(
-        //             //DateFormat.HOUR_MINUTE_GENERIC_TZ....
-        //             DateFormat('dd/MM/yyyy').format(e.date),
-        //             style: const TextStyle(
-        //               color: Colors.grey,
-        //               fontSize: 14,
-        //               fontStyle: FontStyle.italic,
-        //               fontWeight: FontWeight.w400,
-        //             ),
-        //           ),
-        //         ],
-        //       ),
-        //     ],
-        //   ),
-        // ),
-        // )
-        // .toList(),
-      ),
     );
   }
 }
