@@ -82,30 +82,36 @@ class _GastoHomeState extends State<GastoHome> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text(
-          'Personal Expenses',
-          //or appbar theme data
-          // style: TextStyle(
-          //   fontFamily: 'OpenSans',
-        ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () => _startAddNewTransaction(context),
-            icon: const Icon(Icons.add),
-          )
-        ],
+    var appBar = AppBar(
+      title: const Text(
+        'Personal Expenses',
+        //or appbar theme data
+        // style: TextStyle(
+        //   fontFamily: 'OpenSans',
       ),
+      actions: <Widget>[
+        IconButton(
+          onPressed: () => _startAddNewTransaction(context),
+          icon: const Icon(Icons.add),
+        )
+      ],
+    );
+    return Scaffold(
+      appBar: appBar,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            Chart(_recentTransactions),
-            const SizedBox(
-              height: 10,
-            ),
+            SizedBox(
+                height: (MediaQuery.of(context).size.height -
+                        appBar.preferredSize.height -
+                        MediaQuery.of(context).padding.top) *
+                    0.3,
+                child: Chart(_recentTransactions)),
+            // const SizedBox(
+            //   height: 10,
+            // ),
             //split
             // Card(
             //   elevation: 10,
@@ -157,7 +163,13 @@ class _GastoHomeState extends State<GastoHome> {
             //split2
             // NewTransaction(),
             // TransactionList(),
-            TransactionList(_userTransactions, _deleteTransaction),
+            SizedBox(
+              child: TransactionList(_userTransactions, _deleteTransaction),
+              height: (MediaQuery.of(context).size.height -
+                      appBar.preferredSize.height -
+                      MediaQuery.of(context).padding.top) *
+                  0.7,
+            ),
             //split
             // Column(
             //   children: transactions
