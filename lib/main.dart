@@ -15,8 +15,10 @@ class Gasto extends StatelessWidget {
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
+        primaryColor: Colors.purple,
+        errorColor: Colors.red,
         colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
-            .copyWith(secondary: Colors.purple),
+            .copyWith(secondary: Colors.amber),
         fontFamily: 'Quicksand',
         textTheme: ThemeData.light().textTheme.copyWith(
                 headline6: const TextStyle(
@@ -48,7 +50,7 @@ class Gasto extends StatelessWidget {
         ),
       ),
       debugShowCheckedModeBanner: false,
-      home: GastoHome(),
+      home: const GastoHome(),
     );
   }
 }

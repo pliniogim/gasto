@@ -5,8 +5,10 @@ import 'package:intl/intl.dart';
 import '../model/transaction.dart';
 
 class TransactionList extends StatelessWidget {
+  final Function deletetx;
   final List<Transaction> transactions;
-  TransactionList(this.transactions);
+  const TransactionList(this.transactions, this.deletetx, {Key? key})
+      : super(key: key);
 
   // const TransactionList({Key? key, required this.transactions})
   //     : super(key: key);
@@ -20,8 +22,8 @@ class TransactionList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 300,
+    return SizedBox(
+      height: 450,
       child: transactions.isEmpty
           ? Column(
               children: <Widget>[
@@ -32,7 +34,7 @@ class TransactionList extends StatelessWidget {
                 const SizedBox(
                   height: 10,
                 ),
-                Container(
+                SizedBox(
                   height: 200,
                   child: Image.asset(
                     'assets/images/waiting.png',
@@ -44,54 +46,96 @@ class TransactionList extends StatelessWidget {
           : ListView.builder(
               itemBuilder: (context, index) {
                 return Card(
-                  child: Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(10),
-                        margin: const EdgeInsets.symmetric(
-                          vertical: 10,
-                          horizontal: 20,
-                        ),
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                            color: Theme.of(context).primaryColor,
-                            width: 2,
-                          ),
-                        ),
-                        child: Text(
-                          '\$${transactions[index].amount.toStringAsFixed(2)}',
-                          style: TextStyle(
-                            fontSize: 22,
-                            fontWeight: FontWeight.bold,
-                            color: Theme.of(context).primaryColor,
+                  elevation: 10,
+                  margin: const EdgeInsets.symmetric(
+                    vertical: 8.0,
+                    horizontal: 20.0,
+                  ),
+                  child: ListTile(
+                    leading: CircleAvatar(
+                      backgroundColor: Theme.of(context).primaryColor,
+                      radius: 30,
+                      child: Padding(
+                        padding: const EdgeInsets.all(6),
+                        child: FittedBox(
+                          child: Text(
+                            '\$${transactions[index].amount.toStringAsFixed(2)}',
                           ),
                         ),
                       ),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: <Widget>[
-                          Text(
-                            transactions[index].title,
-                            style: Theme.of(context).textTheme.headline6,
-                            // style: const TextStyle(
-                            //   fontSize: 18,
-                            //   fontWeight: FontWeight.bold,
-                            // ),
-                          ),
-                          Text(
-                            //DateFormat.HOUR_MINUTE_GENERIC_TZ....
-                            DateFormat('dd/MM/yyyy')
-                                .format(transactions[index].date),
-                            style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 14,
-                              fontStyle: FontStyle.italic,
-                              fontWeight: FontWeight.w400,
-                            ),
-                          ),
-                        ],
+                    ),
+                    trailing: IconButton(
+                      icon: const Icon(Icons.delete),
+                      color: Theme.of(context).errorColor,
+                      onPressed: () => deletetx(transactions[index].id),
+                    ),
+                    title: Text(
+                      transactions[index].title,
+                      style: Theme.of(context).textTheme.headline6,
+                    ),
+                    subtitle: Text(
+                      //DateFormat.HOUR_MINUTE_GENERIC_TZ....
+                      DateFormat('dd/MM/yyyy').format(transactions[index].date),
+                      style: const TextStyle(
+                        color: Colors.grey,
+                        fontSize: 14,
+                        fontStyle: FontStyle.italic,
+                        fontWeight: FontWeight.w400,
                       ),
-                    ],
+
+                      //alternativa
+                      // return Card(
+                      //   child: Row(
+                      //     children: [
+                      //       Container(
+                      //         padding: const EdgeInsets.all(10),
+                      //         margin: const EdgeInsets.symmetric(
+                      //           vertical: 10,
+                      //           horizontal: 20,
+                      //         ),
+                      //         decoration: BoxDecoration(
+                      //           border: Border.all(
+                      //             color: Theme.of(context).primaryColor,
+                      //             width: 2,
+                      //           ),
+                      //         ),
+                      //         child: Text(
+                      //           '\$${transactions[index].amount.toStringAsFixed(2)}',
+                      //           style: TextStyle(
+                      //             fontSize: 22,
+                      //             fontWeight: FontWeight.bold,
+                      //             color: Theme.of(context).primaryColor,
+                      //           ),
+                      //         ),
+                      //       ),
+                      //       Column(
+                      //         crossAxisAlignment: CrossAxisAlignment.start,
+                      //         children: <Widget>[
+                      //           Text(
+                      //             transactions[index].title,
+                      //             style: Theme.of(context).textTheme.headline6,
+                      //             // style: const TextStyle(
+                      //             //   fontSize: 18,
+                      //             //   fontWeight: FontWeight.bold,
+                      //             // ),
+                      //           ),
+                      //           Text(
+                      //             //DateFormat.HOUR_MINUTE_GENERIC_TZ....
+                      //             DateFormat('dd/MM/yyyy')
+                      //                 .format(transactions[index].date),
+                      //             style: const TextStyle(
+                      //               color: Colors.grey,
+                      //               fontSize: 14,
+                      //               fontStyle: FontStyle.italic,
+                      //               fontWeight: FontWeight.w400,
+                      //             ),
+                      //           ),
+                      //         ],
+                      //       ),
+                      //     ],
+                      //   ),
+                      // );
+                    ),
                   ),
                 );
               },

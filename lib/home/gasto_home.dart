@@ -41,21 +41,28 @@ class _GastoHomeState extends State<GastoHome> {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
         DateTime.now().subtract(
-          Duration(days: 7),
+          const Duration(days: 7),
         ),
       );
     }).toList();
   }
 
-  void _addNewTransaction(String txTitle, double txAmount) {
+  void _addNewTransaction(
+      String txTitle, double txAmount, DateTime chosenDate) {
     final newtx = Transaction(
         title: txTitle,
         amount: txAmount,
-        date: DateTime.now(),
+        date: chosenDate,
         id: DateTime.now().toString());
 
     setState(() {
       _userTransactions.add(newtx);
+    });
+  }
+
+  void _deleteTransaction(String id) {
+    setState(() {
+      _userTransactions.removeWhere((tx) => tx.id == id);
     });
   }
 
@@ -150,7 +157,7 @@ class _GastoHomeState extends State<GastoHome> {
             //split2
             // NewTransaction(),
             // TransactionList(),
-            TransactionList(_userTransactions),
+            TransactionList(_userTransactions, _deleteTransaction),
             //split
             // Column(
             //   children: transactions
