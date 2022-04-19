@@ -37,6 +37,9 @@ class _GastoHomeState extends State<GastoHome> {
     ),
   ];
 
+  //switch
+  bool _showChart = false;
+
   List<Transaction> get _recentTransactions {
     return _userTransactions.where((tx) {
       return tx.date.isAfter(
@@ -82,6 +85,9 @@ class _GastoHomeState extends State<GastoHome> {
 
   @override
   Widget build(BuildContext context) {
+    final mediaQuery = MediaQuery.of(context);
+
+    bool isLandscape = mediaQuery.orientation == Orientation.landscape;
     var appBar = AppBar(
       title: const Text(
         'Personal Expenses',
@@ -96,6 +102,13 @@ class _GastoHomeState extends State<GastoHome> {
         )
       ],
     );
+    final txListWidget = SizedBox(
+      child: TransactionList(_userTransactions, _deleteTransaction),
+      height: (mediaQuery.size.height -
+              appBar.preferredSize.height -
+              mediaQuery.padding.top) *
+          0.7,
+    );
     return Scaffold(
       appBar: appBar,
       body: SingleChildScrollView(
@@ -103,12 +116,38 @@ class _GastoHomeState extends State<GastoHome> {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            SizedBox(
-                height: (MediaQuery.of(context).size.height -
+            if (isLandscape)
+              Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                const Text(
+                  'Show Chart',
+                ),
+                Switch(
+                    value: _showChart,
+                    onChanged: (val) {
+                      setState(() {
+                        _showChart = val;
+                      });
+                    }),
+              ]),
+            if (!isLandscape)
+              SizedBox(
+                height: (mediaQuery.size.height -
                         appBar.preferredSize.height -
-                        MediaQuery.of(context).padding.top) *
-                    0.3,
-                child: Chart(_recentTransactions)),
+                        mediaQuery.padding.top) *
+                    .3,
+                child: Chart(_recentTransactions),
+              ),
+            if (!isLandscape) txListWidget,
+            if (isLandscape)
+              _showChart
+                  ? SizedBox(
+                      height: (mediaQuery.size.height -
+                              appBar.preferredSize.height -
+                              mediaQuery.padding.top) *
+                          .6,
+                      child: Chart(_recentTransactions),
+                    )
+                  : txListWidget
             // const SizedBox(
             //   height: 10,
             // ),
@@ -163,13 +202,7 @@ class _GastoHomeState extends State<GastoHome> {
             //split2
             // NewTransaction(),
             // TransactionList(),
-            SizedBox(
-              child: TransactionList(_userTransactions, _deleteTransaction),
-              height: (MediaQuery.of(context).size.height -
-                      appBar.preferredSize.height -
-                      MediaQuery.of(context).padding.top) *
-                  0.7,
-            ),
+
             //split
             // Column(
             //   children: transactions

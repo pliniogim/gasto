@@ -60,74 +60,81 @@ class _NewTransactionState extends State<NewTransaction> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      elevation: 10,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.end,
-          children: <Widget>[
-            TextField(
-              //caso 1
-              // onChanged: (val) => titleInput = val,
-
-              //caso 2
-              controller: _titleController,
-              onSubmitted: (_) => _submitData(),
-              decoration: const InputDecoration(
-                labelText: 'Title',
-              ),
-            ),
-            TextField(
-              //caso 1
-              // onChanged: (value) {
-              //   amountInput = value;
-              // },
-
-              //caso 2
-              controller: _amountController,
-              keyboardType: TextInputType.number,
-              onSubmitted: (_) => _submitData(),
-              decoration: const InputDecoration(
-                labelText: 'Amount',
-              ),
-            ),
-            SizedBox(
-              height: 70,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    // ignore: unnecessary_null_comparison
-                    _selectedDate == null
-                        ? 'No date chosen!'
-                        : 'Picked date: ${DateFormat.yMd().format(_selectedDate)}',
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      _presentDayPicker();
-                    },
-                    child: const Text(
-                      'Choose date',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () {
+    return SingleChildScrollView(
+      child: Card(
+        elevation: 10,
+        child: Container(
+          padding: EdgeInsets.only(
+            top: 10,
+            left: 10,
+            right: 10,
+            bottom: MediaQuery.of(context).viewInsets.bottom + 10,
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: <Widget>[
+              TextField(
                 //caso 1
-                // print(titleInput);
-                // print(amountInput);
-                _submitData();
+                // onChanged: (val) => titleInput = val,
+
                 //caso 2
-                // print(titleController.text);
-                // print(amountController.text);
-              },
-              child: const Text('Add Transaction'),
-            ),
-          ],
+                controller: _titleController,
+                onSubmitted: (_) => _submitData(),
+                decoration: const InputDecoration(
+                  labelText: 'Title',
+                ),
+              ),
+              TextField(
+                //caso 1
+                // onChanged: (value) {
+                //   amountInput = value;
+                // },
+
+                //caso 2
+                controller: _amountController,
+                keyboardType: TextInputType.number,
+                onSubmitted: (_) => _submitData(),
+                decoration: const InputDecoration(
+                  labelText: 'Amount',
+                ),
+              ),
+              SizedBox(
+                height: 70,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      // ignore: unnecessary_null_comparison
+                      _selectedDate == null
+                          ? 'No date chosen!'
+                          : 'Picked date: ${DateFormat.yMd().format(_selectedDate)}',
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        _presentDayPicker();
+                      },
+                      child: const Text(
+                        'Choose date',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  //caso 1
+                  // print(titleInput);
+                  // print(amountInput);
+                  _submitData();
+                  //caso 2
+                  // print(titleController.text);
+                  // print(amountController.text);
+                },
+                child: const Text('Add Transaction'),
+              ),
+            ],
+          ),
         ),
       ),
     );
