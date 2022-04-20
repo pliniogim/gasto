@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+//import 'package:cupertino/cupertino.dart';
 //import 'package:flutter/services.dart';
 
 import '../home/gasto_home.dart';
@@ -16,45 +20,48 @@ class Gasto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Personal Expenses',
-      theme: ThemeData(
-        primaryColor: Colors.purple,
-        errorColor: Colors.red,
-        colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
-            .copyWith(secondary: Colors.amber),
-        fontFamily: 'Quicksand',
-        textTheme: ThemeData.light().textTheme.copyWith(
-                headline6: const TextStyle(
+    // Cupertino App or Android App
+    return Platform.isIOS
+        ? const CupertinoApp()
+        : MaterialApp(
+            title: 'Personal Expenses',
+            theme: ThemeData(
+              primaryColor: Colors.purple,
+              errorColor: Colors.red,
+              colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
+                  .copyWith(secondary: Colors.amber),
               fontFamily: 'Quicksand',
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-            )),
-        appBarTheme: AppBarTheme(
-          toolbarTextStyle: ThemeData.light()
-              .textTheme
-              .copyWith(
-                headline6: const TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-              .bodyText2,
-          titleTextStyle: ThemeData.light()
-              .textTheme
-              .copyWith(
-                headline6: const TextStyle(
-                  fontFamily: 'OpenSans',
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                ),
-              )
-              .headline6,
-        ),
-      ),
-      debugShowCheckedModeBanner: false,
-      home: const GastoHome(),
-    );
+              textTheme: ThemeData.light().textTheme.copyWith(
+                      headline6: const TextStyle(
+                    fontFamily: 'Quicksand',
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  )),
+              appBarTheme: AppBarTheme(
+                toolbarTextStyle: ThemeData.light()
+                    .textTheme
+                    .copyWith(
+                      headline6: const TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                    .bodyText2,
+                titleTextStyle: ThemeData.light()
+                    .textTheme
+                    .copyWith(
+                      headline6: const TextStyle(
+                        fontFamily: 'OpenSans',
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    )
+                    .headline6,
+              ),
+            ),
+            debugShowCheckedModeBanner: false,
+            home: const GastoHome(),
+          );
   }
 }

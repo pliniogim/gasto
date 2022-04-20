@@ -1,4 +1,8 @@
+import 'dart:io';
+
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:gasto/home/widgets/adaptative_button.dart';
 //import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
@@ -109,30 +113,35 @@ class _NewTransactionState extends State<NewTransaction> {
                           ? 'No date chosen!'
                           : 'Picked date: ${DateFormat.yMd().format(_selectedDate)}',
                     ),
-                    TextButton(
-                      onPressed: () {
-                        _presentDayPicker();
-                      },
-                      child: const Text(
-                        'Choose date',
-                        style: TextStyle(fontWeight: FontWeight.bold),
-                      ),
-                    ),
+                    AdaptativeFlatButton('Choose Date', _presentDayPicker),
                   ],
                 ),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  //caso 1
-                  // print(titleInput);
-                  // print(amountInput);
-                  _submitData();
-                  //caso 2
-                  // print(titleController.text);
-                  // print(amountController.text);
-                },
-                child: const Text('Add Transaction'),
-              ),
+              Platform.isIOS
+                  ? CupertinoButton(
+                      child: const Text('Add Transaction'),
+                      onPressed: () {
+                        //caso 1
+                        // print(titleInput);
+                        // print(amountInput);
+                        _submitData();
+                        //caso 2
+                        // print(titleController.text);
+                        // print(amountController.text);
+                      },
+                    )
+                  : ElevatedButton(
+                      onPressed: () {
+                        //caso 1
+                        // print(titleInput);
+                        // print(amountInput);
+                        _submitData();
+                        //caso 2
+                        // print(titleController.text);
+                        // print(amountController.text);
+                      },
+                      child: const Text('Add Transaction'),
+                    ),
             ],
           ),
         ),
