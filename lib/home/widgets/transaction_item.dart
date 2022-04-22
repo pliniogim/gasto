@@ -1,10 +1,12 @@
 //import 'package:flutter/cupertino.dart';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
 import '../model/transaction.dart';
 
-class TransactionItem extends StatelessWidget {
+class TransactionItem extends StatefulWidget {
   const TransactionItem({
     Key? key,
     required this.transaction,
@@ -17,6 +19,25 @@ class TransactionItem extends StatelessWidget {
   final Function deletetx;
 
   @override
+  State<TransactionItem> createState() => _TransactionItemState();
+}
+
+class _TransactionItemState extends State<TransactionItem> {
+  Color _bgColor = Colors.black;
+
+  @override
+  void initState() {
+    const availableColors = [
+      Colors.red,
+      Colors.green,
+      Colors.blue,
+      Colors.purple,
+    ];
+    _bgColor = availableColors[Random().nextInt(4)];
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Card(
       elevation: 10,
@@ -26,36 +47,37 @@ class TransactionItem extends StatelessWidget {
       ),
       child: ListTile(
         leading: CircleAvatar(
-          backgroundColor: Theme.of(context).primaryColor,
+          // backgroundColor: Theme.of(context).primaryColor,
+          backgroundColor: _bgColor,
           radius: 30,
           child: Padding(
             padding: const EdgeInsets.all(6),
             child: FittedBox(
               child: Text(
-                '\$${transaction.amount.toStringAsFixed(2)}',
+                '\$${widget.transaction.amount.toStringAsFixed(2)}',
               ),
             ),
           ),
         ),
-        trailing: mediaQuery.size.width > 360
+        trailing: widget.mediaQuery.size.width > 360
             ? TextButton.icon(
                 //textColor: Theme.of(context).errorColor,
                 icon: const Icon(Icons.delete),
-                onPressed: () => deletetx(transaction.id),
+                onPressed: () => widget.deletetx(widget.transaction.id),
                 label: const Text('Delete'),
               )
             : IconButton(
                 icon: const Icon(Icons.delete),
                 color: Theme.of(context).errorColor,
-                onPressed: () => deletetx(transaction.id),
+                onPressed: () => widget.deletetx(widget.transaction.id),
               ),
         title: Text(
-          transaction.title,
+          widget.transaction.title,
           style: Theme.of(context).textTheme.headline6,
         ),
         subtitle: Text(
           //DateFormat.HOUR_MINUTE_GENERIC_TZ....
-          DateFormat('dd/MM/yyyy').format(transaction.date),
+          DateFormat('dd/MM/yyyy').format(widget.transaction.date),
           style: const TextStyle(
             color: Colors.grey,
             fontSize: 14,

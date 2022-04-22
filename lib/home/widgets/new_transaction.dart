@@ -9,10 +9,16 @@ import 'package:intl/intl.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  const NewTransaction(this.addTx, {Key? key}) : super(key: key);
+  NewTransaction(this.addTx, {Key? key}) : super(key: key) {
+    //print('Constructor NewTransaction Widget');
+  }
 
   @override
-  State<NewTransaction> createState() => _NewTransactionState();
+  // ignore: no_logic_in_create_state
+  State<NewTransaction> createState() {
+    //print('Create State in NewTransaction Widget');
+    return _NewTransactionState();
+  }
 }
 
 class _NewTransactionState extends State<NewTransaction> {
@@ -21,6 +27,29 @@ class _NewTransactionState extends State<NewTransaction> {
   final _amountController = TextEditingController();
 
   DateTime _selectedDate = DateTime.now();
+
+  _NewTransactionState() {
+    //print('Constructor NewTransaction State');
+  }
+
+  @override
+  void initState() {
+    //for getting initial data
+    //print('InitState()');
+    super.initState(); //parent class = super
+  }
+
+  @override
+  void didUpdateWidget(NewTransaction oldWidget) {
+    //print('didUpadateWidget()');
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    //print('dispose()');
+    super.dispose();
+  }
 
   void _presentDayPicker() {
     showDatePicker(
