@@ -1,10 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-//import 'package:cupertino/cupertino.dart';
-//import 'package:flutter/services.dart';
-
 import '../home/gasto_home.dart';
 
 //Entrada
@@ -20,8 +16,6 @@ class Gasto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //print('Build MysState');
-    // Cupertino App or Android App
     return Platform.isIOS
         ? const CupertinoApp(
             title: 'Personal Expenses',

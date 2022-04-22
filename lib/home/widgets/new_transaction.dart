@@ -3,20 +3,15 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gasto/home/widgets/adaptative_button.dart';
-//import 'package:flutter/widgets.dart';
 import 'package:intl/intl.dart';
 
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  NewTransaction(this.addTx, {Key? key}) : super(key: key) {
-    //print('Constructor NewTransaction Widget');
-  }
+  const NewTransaction(this.addTx, {Key? key}) : super(key: key);
 
   @override
-  // ignore: no_logic_in_create_state
   State<NewTransaction> createState() {
-    //print('Create State in NewTransaction Widget');
     return _NewTransactionState();
   }
 }
@@ -28,26 +23,20 @@ class _NewTransactionState extends State<NewTransaction> {
 
   DateTime _selectedDate = DateTime.now();
 
-  _NewTransactionState() {
-    //print('Constructor NewTransaction State');
-  }
+  _NewTransactionState();
 
   @override
   void initState() {
-    //for getting initial data
-    //print('InitState()');
     super.initState(); //parent class = super
   }
 
   @override
   void didUpdateWidget(NewTransaction oldWidget) {
-    //print('didUpadateWidget()');
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void dispose() {
-    //print('dispose()');
     super.dispose();
   }
 
@@ -107,10 +96,6 @@ class _NewTransactionState extends State<NewTransaction> {
             crossAxisAlignment: CrossAxisAlignment.end,
             children: <Widget>[
               TextField(
-                //caso 1
-                // onChanged: (val) => titleInput = val,
-
-                //caso 2
                 controller: _titleController,
                 onSubmitted: (_) => _submitData(),
                 decoration: const InputDecoration(
@@ -118,12 +103,6 @@ class _NewTransactionState extends State<NewTransaction> {
                 ),
               ),
               TextField(
-                //caso 1
-                // onChanged: (value) {
-                //   amountInput = value;
-                // },
-
-                //caso 2
                 controller: _amountController,
                 keyboardType: TextInputType.number,
                 onSubmitted: (_) => _submitData(),
@@ -150,24 +129,12 @@ class _NewTransactionState extends State<NewTransaction> {
                   ? CupertinoButton(
                       child: const Text('Add Transaction'),
                       onPressed: () {
-                        //caso 1
-                        // print(titleInput);
-                        // print(amountInput);
                         _submitData();
-                        //caso 2
-                        // print(titleController.text);
-                        // print(amountController.text);
                       },
                     )
                   : ElevatedButton(
                       onPressed: () {
-                        //caso 1
-                        // print(titleInput);
-                        // print(amountInput);
                         _submitData();
-                        //caso 2
-                        // print(titleController.text);
-                        // print(amountController.text);
                       },
                       child: const Text('Add Transaction'),
                     ),

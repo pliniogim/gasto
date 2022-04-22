@@ -1,9 +1,6 @@
-//import 'package:flutter/cupertino.dart';
 import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
-
 import '../model/transaction.dart';
 
 class TransactionItem extends StatefulWidget {
@@ -84,59 +81,6 @@ class _TransactionItemState extends State<TransactionItem> {
             fontStyle: FontStyle.italic,
             fontWeight: FontWeight.w400,
           ),
-
-          //alternativa
-          // return Card(
-          //   child: Row(
-          //     children: [
-          //       Container(
-          //         padding: const EdgeInsets.all(10),
-          //         margin: const EdgeInsets.symmetric(
-          //           vertical: 10,
-          //           horizontal: 20,
-          //         ),
-          //         decoration: BoxDecoration(
-          //           border: Border.all(
-          //             color: Theme.of(context).primaryColor,
-          //             width: 2,
-          //           ),
-          //         ),
-          //         child: Text(
-          //           '\$${transactions[index].amount.toStringAsFixed(2)}',
-          //           style: TextStyle(
-          //             fontSize: 22,
-          //             fontWeight: FontWeight.bold,
-          //             color: Theme.of(context).primaryColor,
-          //           ),
-          //         ),
-          //       ),
-          //       Column(
-          //         crossAxisAlignment: CrossAxisAlignment.start,
-          //         children: <Widget>[
-          //           Text(
-          //             transactions[index].title,
-          //             style: Theme.of(context).textTheme.headline6,
-          //             // style: const TextStyle(
-          //             //   fontSize: 18,
-          //             //   fontWeight: FontWeight.bold,
-          //             // ),
-          //           ),
-          //           Text(
-          //             //DateFormat.HOUR_MINUTE_GENERIC_TZ....
-          //             DateFormat('dd/MM/yyyy')
-          //                 .format(transactions[index].date),
-          //             style: const TextStyle(
-          //               color: Colors.grey,
-          //               fontSize: 14,
-          //               fontStyle: FontStyle.italic,
-          //               fontWeight: FontWeight.w400,
-          //             ),
-          //           ),
-          //         ],
-          //       ),
-          //     ],
-          //   ),
-          // );
         ),
       ),
     );
