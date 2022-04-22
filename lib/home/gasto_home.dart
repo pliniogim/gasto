@@ -1,7 +1,9 @@
 import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:gasto/home/widgets/new_transaction.dart';
 import 'package:gasto/home/widgets/transaction_list.dart';
+
 //import 'package:gasto/home/widgets/user_transaction.dart';
 import 'model/transaction.dart';
 import 'widgets/chart.dart';
@@ -84,25 +86,131 @@ class _GastoHomeState extends State<GastoHome> {
     );
   }
 
+  //SPREAD OPERATOR
+  List<Widget> _buildPortraitMode(
+      MediaQueryData mediaQuery, PreferredSizeWidget appBar, txListWidget) {
+    return [
+      SizedBox(
+        height: (mediaQuery.size.height -
+                appBar.preferredSize.height -
+                mediaQuery.padding.top) *
+            .3,
+        child: Chart(_recentTransactions),
+      ),
+      txListWidget
+    ];
+  }
+
+  List<Widget> _buildLandscapeMode(
+    MediaQueryData mediaQuery,
+    PreferredSizeWidget appBar,
+    txListWidget,
+  ) {
+    return [
+      Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        Text(
+          'Show Chart',
+          style: Theme.of(context).textTheme.headline6,
+        ),
+        Switch.adaptive(
+            //adapts android or ios
+            value: _showChart,
+            onChanged: (val) {
+              setState(() {
+                _showChart = val;
+              });
+            }),
+      ]),
+      _showChart
+          ? SizedBox(
+              height: (mediaQuery.size.height -
+                      appBar.preferredSize.height -
+                      mediaQuery.padding.top) *
+                  .6,
+              child: Chart(_recentTransactions),
+            )
+          : txListWidget
+    ];
+  }
+  //SPREAD OPERATOR
+
+  PreferredSizeWidget _appBarWidget() {
+    return Platform.isIOS
+        ? CupertinoNavigationBar(
+            middle: const Text(
+              'Personal Expenses',
+            ),
+            trailing: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                GestureDetector(
+                  child: const Icon(CupertinoIcons.add),
+                  onTap: () => _startAddNewTransaction(context),
+                ),
+              ],
+            ),
+          )
+        : AppBar(
+            title: const Text(
+              'Personal Expenses',
+            ),
+            actions: [
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () => _startAddNewTransaction(context),
+              ),
+            ],
+          ) as PreferredSizeWidget;
+  }
+
   @override
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
 
     bool isLandscape = mediaQuery.orientation == Orientation.landscape;
-    var appBar = AppBar(
-      title: const Text(
-        'Personal Expenses',
-        //or appbar theme data
-        // style: TextStyle(
-        //   fontFamily: 'OpenSans',
-      ),
-      actions: <Widget>[
-        IconButton(
-          onPressed: () => _startAddNewTransaction(context),
-          icon: const Icon(Icons.add),
-        )
-      ],
-    );
+
+    final PreferredSizeWidget appBar = _appBarWidget();
+    // final appBar = Platform.isIOS
+    //     ? CupertinoNavigationBar(
+    //         middle: const Text(
+    //           'Personal Expenses',
+    //         ),
+    //         trailing: Row(
+    //           mainAxisSize: MainAxisSize.min,
+    //           children: <Widget>[
+    //             GestureDetector(
+    //               child: const Icon(CupertinoIcons.add),
+    //               onTap: () => _startAddNewTransaction(context),
+    //             ),
+    //           ],
+    //         ),
+    //       )
+    //     : AppBar(
+    //         title: const Text(
+    //           'Personal Expenses',
+    //         ),
+    //         actions: <Widget>[
+    //           IconButton(
+    //             icon: Icon(Icons.add),
+    //             onPressed: () => _startAddNewTransaction(context),
+    //           ),
+    //         ],
+    //       );
+
+    // var appBar = AppBar(
+    //   title: const Text(
+    //     'Personal Expenses',
+    //     //or appbar theme data
+    //     // style: TextStyle(
+    //     //   fontFamily: 'OpenSans',
+    //   ),
+    //   actions: <Widget>[
+    //     IconButton(
+    //       onPressed: () => _startAddNewTransaction(context),
+    //       icon: const Icon(Icons.add),
+    //     )
+    //   ],
+    // );
     final txListWidget = SizedBox(
       child: TransactionList(_userTransactions, _deleteTransaction),
       height: (mediaQuery.size.height -
@@ -117,41 +225,45 @@ class _GastoHomeState extends State<GastoHome> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
+            children: [
               if (isLandscape)
-                Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Text(
-                    'Show Chart',
-                    style: Theme.of(context).textTheme.headline6,
-                  ),
-                  Switch.adaptive(
-                      //adapts android or ios
-                      value: _showChart,
-                      onChanged: (val) {
-                        setState(() {
-                          _showChart = val;
-                        });
-                      }),
-                ]),
+                ..._buildLandscapeMode(mediaQuery, appBar, txListWidget),
+              // Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+              //   Text(
+              //     'Show Chart',
+              //     style: Theme.of(context).textTheme.headline6,
+              //   ),
+              //   Switch.adaptive(
+              //       //adapts android or ios
+              //       value: _showChart,
+              //       onChanged: (val) {
+              //         setState(() {
+              //           _showChart = val;
+              //         });
+              //       }),
+              // ]),
+              //SPREAD OPERATOR TO PULL OUT ALL THE ITEMS INTO WIDGETS
               if (!isLandscape)
-                SizedBox(
-                  height: (mediaQuery.size.height -
-                          appBar.preferredSize.height -
-                          mediaQuery.padding.top) *
-                      .3,
-                  child: Chart(_recentTransactions),
-                ),
-              if (!isLandscape) txListWidget,
+                ..._buildPortraitMode(mediaQuery, appBar, txListWidget),
+              // SizedBox(
+              //   height: (mediaQuery.size.height -
+              //           appBar.preferredSize.height -
+              //           mediaQuery.padding.top) *
+              //       .3,
+              //   child: Chart(_recentTransactions),
+              // ),
+              //if (!isLandscape) txListWidget,
               if (isLandscape)
-                _showChart
-                    ? SizedBox(
-                        height: (mediaQuery.size.height -
-                                appBar.preferredSize.height -
-                                mediaQuery.padding.top) *
-                            .6,
-                        child: Chart(_recentTransactions),
-                      )
-                    : txListWidget
+                ..._buildLandscapeMode(mediaQuery, appBar, txListWidget),
+              // _showChart
+              //     ? SizedBox(
+              //         height: (mediaQuery.size.height -
+              //                 appBar.preferredSize.height -
+              //                 mediaQuery.padding.top) *
+              //             .6,
+              //         child: Chart(_recentTransactions),
+              //       )
+
               // const SizedBox(
               //   height: 10,
               // ),

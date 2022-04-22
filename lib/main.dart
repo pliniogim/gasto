@@ -20,9 +20,16 @@ class Gasto extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    //print('Build MysState');
     // Cupertino App or Android App
     return Platform.isIOS
-        ? const CupertinoApp()
+        ? const CupertinoApp(
+            title: 'Personal Expenses',
+            theme: CupertinoThemeData(
+              barBackgroundColor: Colors.amber,
+              primaryColor: Colors.purple,
+            ),
+          )
         : MaterialApp(
             title: 'Personal Expenses',
             theme: ThemeData(
